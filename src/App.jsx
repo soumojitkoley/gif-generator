@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './App.css'
 import { RandomGif } from './Components/RandomGif'
 import { SearchGif } from './Components/SearchGif'
 
 export const App = () => {
 
-  useEffect(()=> {
-    console.log(import.meta.env.VITE_API_KEY);
-  })
-
-
-
   return (
     <div className='app-main-div'>
-      <RandomGif/>
-      <div className="gap"></div>
-      <SearchGif/>
+      <div className="header-title">
+        <h2>Online Gif Generator</h2>
+        <div className="gap1"></div>
+      </div>
+      <div className="content">
+        <RandomGif />
+        <div className="gap2"></div>
+        <SearchGif />
+      </div>
     </div>
   )
 }

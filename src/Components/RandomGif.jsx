@@ -1,15 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './RandomGif.css'
+import { Spinner } from './Spinner'
+import axios from 'axios'
 
-export const RandomGif = (props) => {
+export const RandomGif = () => {
+
+  const [src, setSrc] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  async function getData() {
+    setIsLoading(true);
+    try {
+      let response = await axios.get(apiUrl + import.meta.env.VITE_API_KEY);
+      setSrc(response.data.data.images.downsized_medium.url);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    getData();
+  }, [])
+
+  function clickHandler() {
+    getData();
+  }
+
   return (
     <div className='Random-gif-container'>
-        <div className="image-container">
-            <img src="https://images.unsplash.com/photo-1706632538634-26e3bf76d372?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-        </div>
-        <div className="generate-btn-container">
-
-        </div>
+      <div className="image-container">
+        {
+          isLoading ? <Spinner /> : <img src={src} key={src} alt="" />
+        }
+      </div>
+      <div className="generate-btn-container">
+        <button onClick={clickHandler}>Random Generate</button>
+      </div>
     </div>
   )
 }

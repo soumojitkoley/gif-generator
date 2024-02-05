@@ -1,14 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './SearchGif.css'
+import { Spinner } from './Spinner'
+import axios from 'axios'
+
 export const SearchGif = (props) => {
+
+  const [tag, setTag] = useState('');
+
+  function changeHandler(event) {
+    setTag(event.target.value)
+  }
+
+  const [src, setSrc] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  async function getData(topic) {
+    setIsLoading(true);
+    try {
+      let response = await axios.get(apiUrl + import.meta.env.VITE_API_KEY + `&tag=${topic}`);
+      setSrc(response.data.data.images.downsized.url);
+      console.log(response)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+    setIsLoading(false);
+  }
+
+
+  function clickHandler(str) {
+    getData(str);
+  }
+
+
   return (
     <div className='search-gif-container'>
-        <div className="generate-btn-container">
-            
-        </div>
-        <div className="image-container">
-        <img src="https://images.unsplash.com/photo-1706632538634-26e3bf76d372?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-        </div>
+      <div className="generate-btn-container-search">
+        <input onChange={changeHandler} placeholder='Search here' type="text" name="" id="" />
+        <button onClick={() => clickHandler(tag)}>Generate</button>
+      </div>
+      {
+        src !== '' ?
+          <div className="image-container">
+            {
+              isLoading ? <Spinner /> : <img src={src} key={src} alt="" />
+            }
+          </div>
+          :
+          <div></div>
+      }
     </div>
   )
 }
