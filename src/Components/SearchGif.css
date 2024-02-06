@@ -5,7 +5,7 @@
     flex-direction: column;
     justify-content:space-evenly;
     align-items: center;
-    /* gap: 20px; */
+    gap: 30px;
 }
 
 .generate-btn-container-search input{

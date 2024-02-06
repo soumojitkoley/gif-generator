@@ -5,11 +5,12 @@
     flex-direction: column;
     justify-content:space-evenly;
     align-items: center;
+    gap: 30px;
 }
 
 .image-container{
-    height: 200px;
-    width: 300px;
+    height: 300px;
+    width: 350px;
     /* border: 1px solid #fff; */
     border-radius: 15px;
     overflow: hidden;
